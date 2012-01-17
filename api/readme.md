@@ -1,8 +1,5 @@
 eMentor API v2 documentation
 --------------------------------
-
- TOC
-======
  
  1. [Technical overview]                    (#overview)
  2. [Authenticating requests]               (#keys)
@@ -35,8 +32,9 @@ API server can return response in several formats, including
  * JSON
  * XML (schema-less)
  * PHP array (serialize)
-
-
+  
+    
+    
 Signing requests                                                                 <a name="keys"></a>
 ===================
 To use eMentor API you must have an **API KEY**. Each key consist of:
@@ -86,9 +84,11 @@ string consisting of:
 
 To generate signature in PHP 5.3 you can use the following code:
 
+```php    
+    <?php
     $checksumString = $httpVerb . $url . $contentType. $contentMd5 . $date . $keySecret;
     $signature = base64_encode( sha1( $checksumString ) );
-
+```
 
 
 
@@ -102,6 +102,7 @@ the following request
 In this example, there are no `Content-Type` or `Content-Md5` headers, so we will calculate a signature using only
 HTTP verb, date and key secret. For example, in PHP 5.3 we would use the following code:
 
+```php
     <?php
     $verb = 'GET';    
     $url = '/api/rest/training/9kw2lkaw';
@@ -111,6 +112,8 @@ HTTP verb, date and key secret. For example, in PHP 5.3 we would use the followi
         
     $authorization = 'EMT '. $keyID . ' ' .base64_encode(sha1( $verb . $url . $date . $keySecret ));
     echo $authorization;
+```
+
 
 The result:
 
@@ -136,6 +139,7 @@ We are signing the following request
 Notice that we are using text/json as the body of this request, and we have already calculated an md5 sum
 for it. To generate a signature for this request in in PHP 5.3 we would use the following code:
 
+```php
     <?php
     $verb = 'POST';    
     $url = '/api/rest/training/9kw2lkaw';
@@ -148,6 +152,7 @@ for it. To generate a signature for this request in in PHP 5.3 we would use the 
     $authorization = 'EMT '.$keyID.' ';
     $authorization .= base64_encode(sha1( $verb.$url.$contentType.$contentMd5.$date.$keySecret ));
     echo $authorization;
+```
 
 The result:
 
@@ -163,6 +168,8 @@ The full, signed request:
 
     {name:"New name for training"}
 
+
+-----
 
 
 RESTful API                                                                      <a name="rest"></a>
@@ -205,17 +212,19 @@ request they will be joined with `AND` operator (server will return items that m
 A `FIELD` can be any field in current model.
 
 
-|    Parameter         |   Operator          | Description                                                     |
-| -------------------- | ------------------- | --------------------------------------------------------------- |
-| filter-FIELD-eq      |  Equals to X        | Find all items that have FIELD equal to X
-| filter-FIELD-ne      |  Not equals to X    | Find all items that have FIELD NOT equal to X
-| filter-FIELD-gt      |  Greater than X     | Find all items that have FIELD greater than X
-| filter-FIELD-gte     |  Greater or equal X | Find all items that have FIELD greater than or equal to X
-| filter-FIELD-lt      |  Less than X        | Find all items that have FIELD less than X
-| filter-FIELD-lte     |  Less or equal X    | Find all items that have FIELD less than or equal to X
-| filter-FIELD-like    |  contains X         | Find all items with FIELD that contains X
-| filter-FIELD-notLike |  does not contain X | Find all items with FIELD that DOES NOT contain X
+|    Parameter           |   Operator          | Description                                                     |
+| ---------------------- | ------------------- | --------------------------------------------------------------- |
+| `filter-FIELD-eq`      |  Equals to X        | Find all items that have FIELD equal to X
+| `filter-FIELD-ne`      |  Not equals to X    | Find all items that have FIELD NOT equal to X
+| `filter-FIELD-gt`      |  Greater than X     | Find all items that have FIELD greater than X
+| `filter-FIELD-gte`     |  Greater or equal X | Find all items that have FIELD greater than or equal to X
+| `filter-FIELD-lt`      |  Less than X        | Find all items that have FIELD less than X
+| `filter-FIELD-lte`     |  Less or equal X    | Find all items that have FIELD less than or equal to X
+| `filter-FIELD-like`    |  contains X         | Find all items with FIELD that contains X
+| `filter-FIELD-notLike` |  does not contain X | Find all items with FIELD that DOES NOT contain X
 
+  
+  
 
 ### Item URL                                                                <a name="rest4"></a>
 
@@ -225,6 +234,9 @@ Item URL has the following format:
 
     /api/rest/[MODEL NAME]/[ITEM ID]
 
+  
+  
+  
 ### Item query methods
 
 You can use the following HTTP methods to access the item.
@@ -237,8 +249,9 @@ You can use the following HTTP methods to access the item.
 |   PUT           |   CREATE         | Create new item with the supplied data     |
 |   DELETE        |   DELETE         | Order items by this field. Can be any field in selected model.       |
 
-
-
+  
+  
+  
 ### Changing query data format                                               <a name="rest5"></a>
 
 `POST` and `PUT` queries require data to be sent in the request. 
@@ -251,8 +264,9 @@ In order to specify data format, use a standard `Content-Type` header. You can u
 
 > All strings have to be UTF-8 encoded. Integers can have maximum size of 64-bit.
 
-
-
+  
+  
+  
 ### Changing query result format
 
 API server can send back result in several formats. You can select result format by using `?format=` query param.
@@ -265,8 +279,9 @@ To list all orders in JSON format:
 
     GET /api/rest/training?format=json
 
-
-
+  
+  
+  
 ### Models                                                                   <a name="rest7"></a>
 
 eMentor API currently provides RESTful access to the following models:
@@ -276,7 +291,7 @@ eMentor API currently provides RESTful access to the following models:
  * `order` - orders created via API or placed in your dedicated store
 
 
-
+----
 
 Direct API                                                                       <a name="direct"></a>
 =============
