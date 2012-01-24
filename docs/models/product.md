@@ -36,7 +36,7 @@ Product status
 ==============
 
  **Status value**   |  **Name**         | **Can be set?** | **Description**
- ------------------ | ----------------- | ---------------------------------------------------------
+ ------------------ | ----------------- | --------------- | ---------------------------------------
  100                | ACTIVE            | YES             | Ready and selling
  95                 | BROADCASTING      | NO              | (valid only for live events) Broadcasting to users
  90                 | OPEN              | YES             | (valid only for live events) Open for users to join the broadcast.

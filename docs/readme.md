@@ -38,7 +38,7 @@ API server can return response in [several formats](#rest24), including:
 
  * JSON
  * XML (schema-less)
- * PHP array (serialize)
+ * PHP serialized associative array (`serialize(array())`)
 
 When updating objects in database, [API server can digest](#rest23) the following formats:
 
@@ -61,8 +61,6 @@ You can generate new key by logging into [Author's Panel][APanel]
 > in serious data loss and/or privacy issues. 
 
 > Always protect your Key ID and Secret!!!
-
-
 
 All requests **must** be signed using your API Key. In order to sign a request you have to append `Authorize` header.
 
@@ -225,9 +223,9 @@ Currently supported formats are:
 
  * `format=json` - [JSON][]
  * `format=xml` - schema-less XML, with values in separate nodes. Items are stored in `<item>` nodes
- * `format=php` - php-compatible serialization of nested objects (associative array)
- * `format=post` - url-encoded values
- * `format=urlencode` - url-encoded values
+ * `format=php` - php-compatible [serialization][php-serialize] of nested objects (associative array)
+ * `format=post` - url-encoded values ([RFC1738][RFC1738])
+ * `format=urlencode` - url-encoded values ([RFC1738][RFC1738])
 
  For example, to retrieve all data for training id `KK2J932kks` in `XML` format:
 
@@ -244,11 +242,10 @@ I.e. to list all orders in JSON format:
 eMentor API currently provides RESTful access to the following models:
 
  * [product](models/product.md) - products owned by you, having unique id, price, name etc.
- * [product_media](models/product_media.md) - each product has 1 or more media (video, audio, archives, etc)
- * [user](models/user.nd) - clients that have bought 1 or more products from you, identified by id
- * [user_cart](models/user_cart) - temporary order created automatically for each unique user of your site
- * [order](models/order) - orders created via API or placed in your dedicated store
- * [order_item](models/order_item) - each order contains 1 or more items. Each item relates to a product
+ * [media](models/media.md) - each product has 1 or more media (video, audio, archive etc.)
+ * [user](models/user.md) - clients, identified by email address
+ * [order](models/order.md) - orders created via API or placed in your dedicated store
+ * [orderitem](models/orderitem.md) - each order contains 1 or more items. Each item relates to a product
 
 All models are described in detail in [separate documentation files](models/).
 
@@ -372,15 +369,6 @@ and are not suitable for REST access style.
 
 ## Request format                                                            <a name="direct1"></a>
 
-Request format is specified by Content-Type header. By default API Server expects JSON format.
-Currently allowed content-types are:
-
- * `Content-Type: text/json`
- * `Content-Type: application/json`
- * `Content-Type: text/xml`
- * `Content-Type: application/x-www-form-urlencoded`
- * `Content-Type: multipart/form-data`
-
 Each request must contain an object with the following attributes:
 
  * `method` - **required** - full method name
@@ -393,14 +381,6 @@ Each request must be [signed with a valid key][#signing], or it will be rejected
 
 API server can send back result in several formats. You can select result format by using `?format=` query param.
 By default, API Server will use the same format as query (if any) or JSON.
-
-Currently supported formats are:
-
- * `format=json` - [JSON][]
- * `format=xml` - schema-less XML, with values in separate nodes
- * `format=php` - php-compatible serialization of nested objects (associative-arrays)
- * `format=post` - url-encoded values
- * `format=urlencode` - url-encoded values
 
 ## Error response                                                            <a name="direct3"></a>
 
@@ -436,10 +416,12 @@ For example, in `JSON` format an error response could look like this:
 
 Reference
 ===========
-[REST]:   <http://en.wikipedia.org/wiki/REST> "Representational state transfer"
-[JSONRPC]:<http://json-rpc.org/wiki/specification> "JSON RPC Specification"
-[APanel]: <http://www.ementor.pl/panel> "Author's Panel - eMentor.pl"
-[SHA1]:   <http://tools.ietf.org/html/rfc3174> "SHA1 RFC"
-
+[REST]:             <http://en.wikipedia.org/wiki/REST> "Representational state transfer"
+[JSONRPC]:          <http://json-rpc.org/wiki/specification> "JSON RPC Specification"
+[JSON]:             <http://www.json.org/> "JSON Specification"
+[APanel]:           <http://www.ementor.pl/panel> "Author's Panel - eMentor.pl"
+[SHA1]:             <http://tools.ietf.org/html/rfc3174> "SHA1 RFC"
+[php-serialize]:    <http://www.php.net/manual/en/function.serialize.php> "PHP serialize() function"
+[RFC1738]:          <http://www.faqs.org/rfcs/rfc1738> "RFC 1738"
 ----
 ![](http://www.ementor.pl/img/logo-white.png)

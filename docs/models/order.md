@@ -31,7 +31,7 @@ Order status
 ==============
 
  **Status value**   |  **Name**         | **Can be set?** | **Description**
- ------------------ | ----------------- | ---------------------------------------------------------
+ ------------------ | ----------------- | --------------- | ---------------------------------------
  100                | FINISHED          | NO              | Paid and served to the client.
  50                 | PENDING           | YES             | Placed, awaiting payment.
  0                  | CART              | YES             | Temporary order (cart, basket)

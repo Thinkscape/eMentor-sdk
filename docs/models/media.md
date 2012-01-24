@@ -36,7 +36,7 @@ Media status
 **Warning!** Media status can only be changed when current status is `READY` or `SUSPENDED`.
 
  **Status value**   |  **Name**              | **Can be set?** | **Description**
- ------------------ | ---------------------- | ---------------------------------------------------------
+ ------------------ | ---------------------- | --------------- | ---------------------------------------
  150                | READY_PROCESSING       | NO              | A new version of media is currently being processed
  120                | READY_PROCESSING_ERROR | NO              | A new version of media could not be processed.
  100                | READY                  | YES             | Ready and available for viewing.

@@ -38,7 +38,7 @@ User status
 ==============
 
  **Status value**   |  **Name**         | **Can be set?** | **Description**
- ------------------ | ----------------- | ---------------------------------------------------------
+ ------------------ | ----------------- | --------------- | ---------------------------------------
  200                | ACTIVEAFF         | NO              | Active affiliate user.
  100                | ACTIVE            | NO              | Active user.
  50                 | SUSPENDED         | NO              | Suspended affiliate user.
