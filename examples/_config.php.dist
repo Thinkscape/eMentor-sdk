@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * eMentor API key ID
+ */
+$keyId = '';
+
+/**
+ * eMentor API key secret
+ */
+$keySecret = '';
+
+/**
+ * eMentor API server address (leave empty for default)
+ */
+$apiEndpoint = '';
