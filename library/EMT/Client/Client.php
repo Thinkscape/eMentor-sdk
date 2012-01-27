@@ -129,8 +129,8 @@ class Client
          * Parse order
          */
         if($order !== null){
-            if(!call_user_func(array($itemClass, 'validateAttribute'),$order)){
-                throw new \BadMethodCallException('Unknown '.$modelName.' order attribute "'.$order.'"');
+            if(!call_user_func(array($associationClass, 'validateAttribute'),$order)){
+                throw new \BadMethodCallException('Unknown order attribute "'.$order.'" for model "'.$associationName.'"');
             }
             $request->setParam('order',$order);
 
@@ -154,7 +154,7 @@ class Client
                     throw new \BadMethodCallException('Cannot use '.gettype($val).' in search criteria');
                 }
 
-                if(!call_user_func(array($itemClass, 'validateAttribute'),$key)){
+                if(!call_user_func(array($associationClass, 'validateAttribute'),$key)){
                     throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$key.'"');
                 }
 
@@ -166,7 +166,7 @@ class Client
                      */
                     list($attr, $operator, $value) = $val;
 
-                    if(!call_user_func(array($itemClass, 'validateAttribute'),$attr)){
+                    if(!call_user_func(array($associationClass, 'validateAttribute'),$attr)){
                         throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$attr.'"');
                     }
 
@@ -177,7 +177,7 @@ class Client
                      */
                     list($attr, $value) = $val;
 
-                    if(!call_user_func(array($itemClass, 'validateAttribute'),$attr)){
+                    if(!call_user_func(array($associationClass, 'validateAttribute'),$attr)){
                         throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$attr.'"');
                     }
 
@@ -207,6 +207,63 @@ class Client
         }
 
         return $result;
+    }
+
+    /**
+     * Create a single item.
+     *
+     * @param string        $modelName      Item's model name
+     * @param array         $createData     Array of attribute => "new value"
+     * @throws \EMT\Exception
+     * @return \EMT\Model\AbstractModel
+     */
+    public function create($modelName, $createData = array())
+    {
+        /**
+         * Check model
+         */
+        $itemClass = $this->getClassForModel($modelName);
+        if(!class_exists($itemClass)){
+            throw new \BadMethodCallException('Unknown model "'.$modelName.'"');
+        }
+
+        /**
+         * Validate create data
+         */
+        foreach($createData as $attr=>$val){
+            /**
+             * Validate the attribute exists and is writable
+             */
+            if(!call_user_func(
+                array($itemClass, 'validateAttribute'),
+                $attr,
+                AbstractModel::ATTR_RW
+            )){
+                throw new \BadMethodCallException('Invalid or read-only '.$modelName.' attribute "'.$attr.'"');
+            }
+        }
+
+        /**
+         * Prepare request
+         */
+        $request = new Request($this->getRESTUrl($modelName));
+        $request->setMethod('POST');
+        $request->setData($createData);
+
+        /**
+         * Sign it
+         */
+        $this->signRequest($request);
+
+        /**
+         * Send request to API server
+         */
+        $response = $this->send($request);
+
+        /**
+         * Create and return new item from the retrieved data
+         */
+        return new $itemClass($response->getData(), $this);
     }
 
     /**
@@ -416,7 +473,7 @@ class Client
          */
         if($order !== null){
             if(!call_user_func(array($itemClass, 'validateAttribute'),$order)){
-                throw new \BadMethodCallException('Unknown '.$modelName.' order attribute "'.$order.'"');
+                throw new \BadMethodCallException('Unknown order attribute "'.$order.'" for model "'.$modelName.'"');
             }
             $request->setParam('order',$order);
 

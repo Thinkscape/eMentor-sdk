@@ -37,7 +37,7 @@ if(!count($media)){
     $m2 = $client->get('media',$m->id);
 
     /**
-     * Check if the product has been returned
+     * Check if the media item has been returned
      */
     if($m2 === false){
         die("ERROR! Server reported that this media does not exist\n");

@@ -65,9 +65,21 @@ For example, to retrieve product for media `Q0aLS6Kvz028VcJ` we could use the fo
     GET /api/v2/rest/media/Q0aLS6Kvz028VcJ/product
 
 
-Examples
-==============
+### /embed
 
+ * **model**: [mediaembed](mediaembed.md)
+ * **count**: 1 or more
+ * **access**: read-only
+
+Media embed codes
+
+For example, to retrieve embeds for media `Q0aLS6Kvz028VcJ` for user `user@email.com` we could use the following REST
+request:
+
+    GET /api/v2/rest/media/Q0aLS6Kvz028VcJ/embed?filter-userId-eq=user@email.com
+
+**Warning** The `filter-userId-eq` parameter is required to retrieve embeds. More information can be found in
+[media embed model](mediaembed.md) documentation.
 
 
 ----

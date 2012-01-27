@@ -46,7 +46,7 @@ if(!count($products)){
     foreach($media as $m){
         echo "Media ".$m->id."\n";
         foreach($m as $k=>$v){
-            echo " - $k = ".($v === null ? 'NULL' : (is_string($v) ? '"'.$v.'"' : $v) )."\n";
+            echo " - $k = ".(($v === null)?'NULL':(is_string($v)?'"'.$v.'"':(is_array($v)? print_r($v,true) : $v)) )."\n";
         }
         echo "----~----~----~----~\n";
     }

@@ -46,6 +46,7 @@ set_exception_handler(function(\Exception $e) use (&$client){
         $class = $foo[1];
     }
 
+    echo "\n\n";
     echo "=========================================================================\n";
     echo "  Error! $class: ".$e->getMessage()."\n";
     echo "=========================================================================\n";

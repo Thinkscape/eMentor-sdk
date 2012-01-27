@@ -1,28 +1,18 @@
 <?php
 namespace EMT\Model;
 
-class Media extends AbstractModel {
+class MediaEmbed extends AbstractModel {
 
     protected static $associations = array(
-        'product'   => '\EMT\Model\Product',
-        'embed'     => '\EMT\Model\MediaEmbed',
+        'user' => '\EMT\Model\User',
+        'media' => '\EMT\Model\Media',
     );
 
     protected static $attributes = array(
-        'id'              => AbstractModel::ATTR_RO,
-        'type'            => AbstractModel::ATTR_RW,
-        'productId'       => AbstractModel::ATTR_RW,
-        'name'            => AbstractModel::ATTR_RW,
-        'status'          => AbstractModel::ATTR_RW,
-        'statusName'      => AbstractModel::ATTR_RO,
-        'statusProgress'  => AbstractModel::ATTR_RO,
-        'dateCreated'     => AbstractModel::ATTR_RO,
-        'dateCreatedIso'  => AbstractModel::ATTR_RO,
-        'dateModified'    => AbstractModel::ATTR_RO,
-        'dateModifiedIso' => AbstractModel::ATTR_RO,
-        'isPreview'       => AbstractModel::ATTR_RW,
-        'rawName'         => AbstractModel::ATTR_RO,
-        'rawLength'       => AbstractModel::ATTR_RO,
+        'template'              => AbstractModel::ATTR_RO,
+        'mediaId'               => AbstractModel::ATTR_RO,
+        'userId'                => AbstractModel::ATTR_RO,
+        'html'                  => AbstractModel::ATTR_RW,
     );
 
     /**

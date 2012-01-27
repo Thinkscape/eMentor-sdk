@@ -229,15 +229,19 @@ class Response
             case 204:
                 return;
 
-            case 404:
-                throw new Exception\NotFound($errMsg);
+            case 400:
+                throw new Exception\BadQuery($errMsg);
 
             case 401:
             case 403:
                 throw new Exception\Unauthorized($errMsg);
 
+            case 404:
+                throw new Exception\NotFound($errMsg);
+
             case 409:
                 throw new Exception\Conflict($errMsg);
+
 
             case 429:
                 throw new Exception\TooManyRequests($errMsg);

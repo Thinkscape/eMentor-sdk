@@ -22,11 +22,11 @@ Attributes
   **Name**         | **Format**    | **Required** | **Access** | **Description**
 ------------------ | ------------- | ------------ | ---------- | --------------------
   `id`             | string        |              | read-only  | User email, must be present when creating new user instance
+  `email`          | string        | **Required** | write+read | User email, same as id.
   `type`           | integer       |              | read-only  | One of: 0 (user), 8 (affiliate), 64 (author),
   `typeName`       | string        |              | read-only  | One of: user, author, affiliate
   `status`         | integer       |              | read-only  | Current user status. For a list of available status values, see next section.
   `statusName`     | string        |              | read-only  | user status name.
-  `email`          | string        | **Required** | write+read | User email, same as id.
   `dateCreated`    | integer       |              | read-only  | Date the user has been created in the database (unix timestamp, seconds since unix epoch)
   `dateCreatedIso` | string        |              | read-only  | Date the user has been created in the database (ISO 8601)
   `dateLogged`     | integer       |              | read-only  | Last login date (unix timestamp, seconds since unix epoch)

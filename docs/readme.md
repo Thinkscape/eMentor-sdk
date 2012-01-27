@@ -97,7 +97,7 @@ To generate signature in PHP 5.3 you can use the following code:
 ```php    
     <?php
     $checksumString = $httpVerb . $url . $contentType. $contentMd5 . $date . $keySecret;
-    $signature = base64_encode( sha1( $checksumString ) );
+    $signature = base64_encode( sha1( $checksumString , TRUE ) );
 ```
 
 

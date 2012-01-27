@@ -16,7 +16,7 @@ $products = $client->findAll('product');
  * Show response
  */
 echo "Received ".count($products)." products from API server\n";
-$x = 0;
+$x = 1;
 foreach($products as $product){
     echo ' '.$x++.'. '.$product->id.': "'.substr($product->name,0,20).'..."'.' ('.(float)$product->price." zł)\n";
 }
@@ -45,7 +45,7 @@ if(!count($products)){
 
     echo "Product data: \n";
     foreach($product2 as $k=>$v){
-        echo " - $k = ".($v === null ? 'NULL' : (is_string($v) ? '"'.$v.'"' : $v) )."\n";
+        echo " - $k = ".(($v === null)?'NULL':(is_string($v)?'"'.$v.'"':(is_array($v)? print_r($v,true) : $v)) )."\n";
     }
 }
 

@@ -22,7 +22,7 @@ if(!count($products)){
     $product = $products[mt_rand(0,count($products)-1)];
     echo "Selected a single product to search for:\n";
     foreach($product as $k=>$v){
-        echo " - $k = ".($v === null ? 'NULL' : (is_string($v) ? '"'.$v.'"' : $v) )."\n";
+        echo " - $k = ".(($v === null)?'NULL':(is_string($v)?'"'.$v.'"':(is_array($v)? print_r($v,true) : $v)) )."\n";
     }
     echo "\n";
 
