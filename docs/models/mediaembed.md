@@ -11,12 +11,16 @@ This model is used to access media embeds.
 **Warning:** Each user (client) has a unique set of media embeds. Do not use the same embed code to display video to
 different users. Always fetch up-to-date embeds for a particular user.
 
-In order to use this model you **must** supply two filter params:
+In order to retrieve media embeds for a paid media (not preview) you **must** supply two filter params:
 
- * `filter-mediaId-eq` - the unique id for the media you'd like to receive embeds
+ * `filter-mediaId-eq` - the unique id for the media you'd like to receive embeds for
  * `filter-userId-eq` - target user email
 
 If any of those parameters is missing, the API server will return an error code.
+
+To retrieve media embeds for free (preview) media, you just need one parameter:
+
+ * `filter-mediaId-eq` - the unique id for the media you'd like to receive embeds for
 
 
 Attributes
@@ -29,7 +33,16 @@ Attributes
   `template`       | string        |              | read-only  | Template name (i.e. 'basic')
   `embed`          | string (HTML) |              | read-only  | HTML code for the embed.
 
+Available templates
+==============
 
+ * `basic` - 439x332px, JS-based player
+ * `medium250` - skinnable, 262x197px, JS-based player
+ * `clearWidescreen` - skinnable, 568x320px, JS-based player
+ * `html5video` - html5 `<video>` element, stylable, 568x320px
+
+You can customize embeds using standard CSS. All embeds use `eMentorThumb` class and contain thumbnail picture fetched
+directly from API server.
 
 Examples
 ==============

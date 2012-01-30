@@ -4,7 +4,7 @@ require_once __DIR__.'/_init.php';
 /**
  * Create client instance
  */
-$client = new EMT\Client\Client($keyId, $keySecret, $apiEndpoint);
+$client = new EMT\Client\Client($keyId, $keySecret, isset($apiEndpoint) ? $apiEndpoint : null);
 
 /**
  * Try to retrieve a list of products from API server

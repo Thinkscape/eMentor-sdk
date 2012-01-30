@@ -30,6 +30,7 @@ Attributes
   `allowDownload`  | boolean       |              | read-only  | Can users download media files for this product? (false means only dynamic video streaming will be available for clients)
   `terms`          | string (HTML) |              | write+read | Supplementary terms to show before purchase - if non-empty, each client wishing to purchase this product will be shown these terms and will be forced to accept them before placing an order.
   `affDescr`       | string (HTML) |              | write+read | Supplementary product description (html) visible only inside eMentor Affiliate Network.
+  `embed`          | array         |              | read-only  | An associative array (a map) containing preview media embeds (in several different templates), ready to be included on a web page
 
 
 Product status

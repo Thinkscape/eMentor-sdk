@@ -78,7 +78,7 @@ request:
 
     GET /api/v2/rest/media/Q0aLS6Kvz028VcJ/embed?filter-userId-eq=user@email.com
 
-**Warning** The `filter-userId-eq` parameter is required to retrieve embeds. More information can be found in
+**Warning** The `filter-userId-eq` parameter is mandatory in order to retrieve embeds. More information can be found in
 [media embed model](mediaembed.md) documentation.
 
 

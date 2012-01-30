@@ -49,14 +49,24 @@ class Media extends AbstractModel {
      * @return \EMT\Model\MediaEmbed[]
      */
     public function getEmbeds(User $user){
-        return $this->_client->getAssociation(
-            'media',
-            $this->id,
-            'embed',
-            array(
-                'userId' => $user->id,
-            )
-        );
+        if(!$this->isPreview){
+            // get a signed embed
+            return $this->_client->getAssociation(
+                'media',
+                $this->id,
+                'embed',
+                array(
+                    'userId' => $user->id,
+                )
+            );
+        }else{
+            // get a preview (free) media embed
+            return $this->_client->getAssociation(
+                'media',
+                $this->id,
+                'embed'
+            );
+        }
     }
 
     /**
