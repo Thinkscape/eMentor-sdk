@@ -10,6 +10,8 @@ class Product extends AbstractModel {
 
     protected static $attributes = array(
         'id'              => AbstractModel::ATTR_RO,
+        'type'            => AbstractModel::ATTR_RW,
+        'typeName'        => AbstractModel::ATTR_RO,
         'name'            => AbstractModel::ATTR_RW,
         'descr'           => AbstractModel::ATTR_RW,
         'price'           => AbstractModel::ATTR_RW,

@@ -292,17 +292,23 @@ request they will be joined with `AND` operator (server will return items that m
 
 A `FIELD` can be any field in current model.
 
+|    Parameter           |   Operator             | Description                                                     |
+| ---------------------- | ---------------------- | --------------------------------------------------------------- |
+| `filter-FIELD-eq`      |  Equals to X           | Find all items that have FIELD equal to X
+| `filter-FIELD-ne`      |  Not equals to X       | Find all items that have FIELD NOT equal to X
+| `filter-FIELD-gt`      |  Greater than X        | Find all items that have FIELD greater than X
+| `filter-FIELD-gte`     |  Greater or equal X    | Find all items that have FIELD greater than or equal to X
+| `filter-FIELD-lt`      |  Less than X           | Find all items that have FIELD less than X
+| `filter-FIELD-lte`     |  Less or equal X       | Find all items that have FIELD less than or equal to X
+| `filter-FIELD-like`    |  contains X            | Find all items with FIELD that contains X
+| `filter-FIELD-notLike` |  does not contain X    | Find all items with FIELD that DOES NOT contain X
+| `filter-FIELD-in`    ` |  is one of [X,Y..]     | Find all items with FIELD is one of X,Y,...
+| `filter-FIELD-notIn`   |  is NOT one of [X,Y..] | Find all items with FIELD is NOT one of X,Y,..
 
-|    Parameter           |   Operator          | Description                                                     |
-| ---------------------- | ------------------- | --------------------------------------------------------------- |
-| `filter-FIELD-eq`      |  Equals to X        | Find all items that have FIELD equal to X
-| `filter-FIELD-ne`      |  Not equals to X    | Find all items that have FIELD NOT equal to X
-| `filter-FIELD-gt`      |  Greater than X     | Find all items that have FIELD greater than X
-| `filter-FIELD-gte`     |  Greater or equal X | Find all items that have FIELD greater than or equal to X
-| `filter-FIELD-lt`      |  Less than X        | Find all items that have FIELD less than X
-| `filter-FIELD-lte`     |  Less or equal X    | Find all items that have FIELD less than or equal to X
-| `filter-FIELD-like`    |  contains X         | Find all items with FIELD that contains X
-| `filter-FIELD-notLike` |  does not contain X | Find all items with FIELD that DOES NOT contain X
+**Note**: When using operators `in` and `notIn` encode all options in JSON-style format, i.e.:
+
+    filter-status-in=[100,80,70]
+    filter-name-notIn=["Training A","Training B"]
 
 ------------------------------------------------------------------------------------------------------------------
 ## Creating new items

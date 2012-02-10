@@ -76,6 +76,17 @@ class Response
     }
 
     /**
+	 * Check if given header exists in the response. Header names are case-sensitive.
+	 *
+	 * @param $name
+	 * @return bool
+	 */
+    public function hasHeader($name)
+    {
+    	return array_key_exists($name, $this->headers);
+    }
+
+    /**
      * @param array|string $data
      */
     public function setData($data)

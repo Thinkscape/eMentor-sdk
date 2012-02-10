@@ -45,6 +45,13 @@ class Client
     protected $lastResponse;
 
     /**
+	 * Total number of items from last findAll operation
+	 *
+	 * @var null|null
+	 */
+    protected $totalCount = null;
+
+    /**
      * @param string|null $keyId        Your key id
      * @param string|null $keySecret    Your key secret
      * @param string|null $apiEndpoint  (optional) URL for api endpoint. Leave empty to use default url
@@ -146,46 +153,71 @@ class Client
          * Add filtering params
          */
         foreach($searchCriteria as $key=>$val){
+            /**
+			 * Interpret the criteria
+			 */
             if(!is_numeric($key)){
                 /**
                  * attribute => $value
                  */
-                if(!is_scalar($val)){
-                    throw new \BadMethodCallException('Cannot use '.gettype($val).' in search criteria');
-                }
-
                 if(!call_user_func(array($associationClass, 'validateAttribute'),$key)){
                     throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$key.'"');
                 }
 
-                $request->setParam('filter-'.$key.'-eq',$val);
+                $value = $val;
+                $attribute = $key;
+                $operator = is_array($value) ? 'in' : 'eq';
             }else{
-                if(count($val) == 3){
+                if(is_array($val) && count($val) == 3){
                     /**
                      * array( attribute, operator, value )
                      */
-                    list($attr, $operator, $value) = $val;
-
-                    if(!call_user_func(array($associationClass, 'validateAttribute'),$attr)){
-                        throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$attr.'"');
-                    }
-
-                    $request->setParam('filter-'.$attr.'-'.$operator, $value);
-                }elseif(count($key) == 2){
+                    list($attribute, $operator, $value) = $val;
+                }elseif(is_array($val) && count($val) == 2){
                     /**
                      * array( attribute, value )
                      */
-                    list($attr, $value) = $val;
-
-                    if(!call_user_func(array($associationClass, 'validateAttribute'),$attr)){
-                        throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$attr.'"');
-                    }
-
-                    $request->setParam('filter-'.$attr.'-eq', $value);
+                    list($attribute, $value) = $val;
+					$operator = 'eq';
                 }else{
                     throw new \BadMethodCallException('Could not understand search criteria '.$key.'=>'.$val);
                 }
             }
+
+            /**
+			 * Validate attribute
+			 */
+			if(!call_user_func(array($associationClass, 'validateAttribute'),$attribute)){
+				throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$attribute.'"');
+			}
+
+            if($operator == 'in' || $operator == 'notIn'){
+                /**
+				 * Multiple options
+				 */
+                if(!is_array($value)){
+                    throw new \BadMethodCallException('Cannot use '.gettype($val).' as multi-value criteria');
+                }
+
+                $options = array();
+				foreach($value as $k=>$v){
+					if(!is_scalar($v)){
+						throw new \BadMethodCallException('Cannot use '.gettype($v).' as multi-value option');
+					}
+					$options[] = (string)$v;
+				}
+				$request->setParam('filter-'.$attribute.'-'.$operator,json_encode($options));
+            }else{
+            	/**
+            	 * Single value comparison
+            	 */
+            	if(!is_scalar($value)){
+                    throw new \BadMethodCallException('Cannot use '.gettype($val).' in search criteria');
+                }
+
+                $request->setParam('filter-'.$attribute.'-'.$operator,$value);
+            }
+
         }
 
         /**
@@ -205,6 +237,15 @@ class Client
         foreach($response->getData() as $itemData){
             $result[] = new $associationClass($itemData, $this);
         }
+
+        /**
+		 * Store total items count (if available)
+		 */
+		if($response->hasHeader('X-Emt-Total')){
+			$this->totalCount = $response->getHeader('X-Emt-Total');
+		}else{
+			$this->totalCount = null;
+		}
 
         return $result;
     }
@@ -489,46 +530,71 @@ class Client
          * Add filtering params
          */
         foreach($searchCriteria as $key=>$val){
+            /**
+			 * Interpret the criteria
+			 */
             if(!is_numeric($key)){
                 /**
                  * attribute => $value
                  */
-                if(!is_scalar($val)){
-                    throw new \BadMethodCallException('Cannot use '.gettype($val).' in search criteria');
-                }
-
                 if(!call_user_func(array($itemClass, 'validateAttribute'),$key)){
                     throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$key.'"');
                 }
 
-                $request->setParam('filter-'.$key.'-eq',$val);
+                $value = $val;
+                $attribute = $key;
+                $operator = is_array($value) ? 'in' : 'eq';
             }else{
-                if(count($val) == 3){
+                if(is_array($val) && count($val) == 3){
                     /**
                      * array( attribute, operator, value )
                      */
-                    list($attr, $operator, $value) = $val;
-
-                    if(!call_user_func(array($itemClass, 'validateAttribute'),$attr)){
-                        throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$attr.'"');
-                    }
-
-                    $request->setParam('filter-'.$attr.'-'.$operator, $value);
-                }elseif(count($key) == 2){
+                    list($attribute, $operator, $value) = $val;
+                }elseif(is_array($val) && count($val) == 2){
                     /**
                      * array( attribute, value )
                      */
-                    list($attr, $value) = $val;
-
-                    if(!call_user_func(array($itemClass, 'validateAttribute'),$attr)){
-                        throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$attr.'"');
-                    }
-
-                    $request->setParam('filter-'.$attr.'-eq', $value);
+                    list($attribute, $value) = $val;
+					$operator = 'eq';
                 }else{
                     throw new \BadMethodCallException('Could not understand search criteria '.$key.'=>'.$val);
                 }
             }
+
+            /**
+			 * Validate attribute
+			 */
+			if(!call_user_func(array($itemClass, 'validateAttribute'),$attribute)){
+				throw new \BadMethodCallException('Unknown '.$modelName.' attribute "'.$attribute.'"');
+			}
+
+            if($operator == 'in' || $operator == 'notIn'){
+                /**
+				 * Multiple options
+				 */
+                if(!is_array($value)){
+                    throw new \BadMethodCallException('Cannot use '.gettype($val).' as multi-value criteria');
+                }
+
+                $options = array();
+				foreach($value as $k=>$v){
+					if(!is_scalar($v)){
+						throw new \BadMethodCallException('Cannot use '.gettype($v).' as multi-value option');
+					}
+					$options[] = (string)$v;
+				}
+				$request->setParam('filter-'.$attribute.'-'.$operator,json_encode($options));
+            }else{
+            	/**
+            	 * Single value comparison
+            	 */
+            	if(!is_scalar($value)){
+                    throw new \BadMethodCallException('Cannot use '.gettype($val).' in search criteria');
+                }
+
+                $request->setParam('filter-'.$attribute.'-'.$operator,$value);
+            }
+
         }
 
         /**
@@ -548,6 +614,15 @@ class Client
         foreach($response->getData() as $itemData){
             $result[] = new $itemClass($itemData, $this);
         }
+
+        /**
+		 * Store total items count (if available)
+		 */
+		if($response->hasHeader('X-Emt-Total')){
+			$this->totalCount = $response->getHeader('X-Emt-Total');
+		}else{
+			$this->totalCount = null;
+		}
 
         return $result;
     }
@@ -894,5 +969,15 @@ class Client
     {
         return '\\EMT\\Model\\'.ucfirst($modelName);
     }
+
+	/**
+	 * Return total number of matching items from last fetchAll() or getAssociation() query.
+	 * The number is total available items, regardless of $limit and $offset.
+	 *
+	 * @return int|null
+	 */
+	public function getTotalCount() {
+		return $this->totalCount;
+	}
 
 }

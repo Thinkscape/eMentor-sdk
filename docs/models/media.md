@@ -17,6 +17,7 @@ Attributes
   `id`             | string        |              | read-only  | Unique identifier for this media
   `type`           | string        | **Required** | write once | Media type, can be assigned at creation time one of: video|file
   `productId`      | string        | **Required** | write once | Associated product id, can only be assigned during creation.
+  `productName`    | string        |              | read-only  | Associated product name
   `name`           | string        |              | write+read | Human-readable media name, visible to the user.
   `status`         | integer       |              | write+read | Current media status. For a list of available status values, see next section.
   `statusName`     | string        |              | read-only  | Media status name.
@@ -28,6 +29,7 @@ Attributes
   `isPreview`      | boolean       |              | write once | Is this media a free (preview) media? False if it should only be accessible after media purchase
   `rawName`        | string        |              | read-only  | Raw (source) file name
   `rawLength`      | integer       |              | read-only  | Media length in seconds.
+  `rawSize`        | integer       |              | read-only  | Media file size in bytes (for media of type "file")
 
 
 Media status

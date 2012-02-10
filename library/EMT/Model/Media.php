@@ -12,6 +12,7 @@ class Media extends AbstractModel {
         'id'              => AbstractModel::ATTR_RO,
         'type'            => AbstractModel::ATTR_RW,
         'productId'       => AbstractModel::ATTR_RW,
+        'productName'     => AbstractModel::ATTR_RO,
         'name'            => AbstractModel::ATTR_RW,
         'status'          => AbstractModel::ATTR_RW,
         'statusName'      => AbstractModel::ATTR_RO,
