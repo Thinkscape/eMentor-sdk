@@ -19,5 +19,6 @@ return array(
     'EMT\Model\Order'                       => __DIR__ . '/library/EMT/Model/Order.php',
     'EMT\Model\OrderItem'                   => __DIR__ . '/library/EMT/Model/OrderItem.php',
     'EMT\Model\Product'                     => __DIR__ . '/library/EMT/Model/Product.php',
+    'EMT\Model\Quickstats'                  => __DIR__ . '/library/EMT/Model/Quickstats.php',
     'EMT\Model\User'                        => __DIR__ . '/library/EMT/Model/User.php',
 );
