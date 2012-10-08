@@ -35,7 +35,7 @@ abstract class AbstractModel extends \ArrayObject
      * @param int       $mode
      * @return bool
      */
-    public function validateAttribute($attribute, $mode = 0){
+    public static function validateAttribute($attribute, $mode = 0){
         if($mode === 0){
             return array_key_exists($attribute,static::$attributes);
         }else{
