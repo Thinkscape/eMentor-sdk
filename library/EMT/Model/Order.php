@@ -2,6 +2,12 @@
 namespace EMT\Model;
 
 class Order extends AbstractModel {
+    const STATUS_FINISHED   = 100;
+    const STATUS_PENDING    = 50;
+    const STATUS_CART       = 0;
+    const STATUS_CANCELLED  = -50;
+    const STATUS_DELETED    = -100;
+
 
     protected static $associations = array(
         'item' => '\EMT\Model\OrderItem',
@@ -45,6 +51,17 @@ class Order extends AbstractModel {
             $limit,
             $offset
         );
+    }
+
+    /**
+     * Add new item to the order.
+     *
+     * @param array $itemData
+     * @return OrderItem
+     */
+    public function addItem($itemData = array()){
+        $itemData['orderId'] = $this->id;
+        return $this->_client->create('OrderItem', $itemData);
     }
 
 }

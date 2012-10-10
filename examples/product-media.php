@@ -57,7 +57,7 @@ if(!count($products)){
     echo "Checking if media items have a valid \"product\" association ";
     foreach($media as $m){
         $product2 = $m->getProduct();
-        if($product2->id != $product->id){
+        if(!$product2 || $product2->id != $product->id){
             die("ERROR! Product associated with media \"".$media->id."\" is different than \"".$product->id."\"\n");
         }else{
             echo ".";

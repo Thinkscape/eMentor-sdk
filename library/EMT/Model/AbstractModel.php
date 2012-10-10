@@ -13,6 +13,8 @@ abstract class AbstractModel extends \ArrayObject
     protected static $attributes = array();
     protected static $associations = array();
 
+    protected $_dirtyFields = array();
+
     /**
      * And instance of EMT Client used for updating item
      *
@@ -63,5 +65,28 @@ abstract class AbstractModel extends \ArrayObject
      */
     public static function getAssociationClass($association){
         return static::$associations[$association];
+    }
+
+    /**
+     * Store changes on the API server
+     */
+    public function save(){
+        $updateData = array();
+        foreach(static::$attributes as $attr =>$access){
+            if($access === self::ATTR_RW && isset($this->_dirtyFields[$attr])){
+                $updateData[$attr] = $this[$attr];
+            }
+        }
+
+        $this->_dirtyFields = array();
+
+        $modelName = strtolower(substr(get_called_class(),strripos(get_called_class(),'\\')+1));
+
+        return $this->_client->update($modelName,$this->id,$updateData);
+    }
+
+    public function offsetSet($attr, $val){
+        $this->_dirtyFields[$attr] = 1;
+        parent::offsetSet($attr, $val);
     }
 }
