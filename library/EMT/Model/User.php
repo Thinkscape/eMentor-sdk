@@ -22,6 +22,7 @@ class User extends AbstractModel {
         'dateLoggedIso'    => AbstractModel::ATTR_RO,
         'visibleCatalog'   => AbstractModel::ATTR_RO,
         'registerIp'       => AbstractModel::ATTR_RW,
+        'authToken'        => AbstractModel::ATTR_RO,
     );
 
     /**

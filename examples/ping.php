@@ -1,6 +1,5 @@
 <?php
-if(!file_exists(__DIR__.'_config.php'))die('_config.php not found! Please edit the file "_config.php.dist", insert you API key info and save the file as "_config.php" in the same directory.'."\n");
-require_once __DIR__.'/_config.php';
+require_once __DIR__.'/_init.php';
 
 /**
  * Create client instance

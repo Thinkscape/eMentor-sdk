@@ -32,6 +32,7 @@ Attributes
   `dateLogged`     | integer       |              | read-only  | Last login date (unix timestamp, seconds since unix epoch)
   `dateLoggedIso`  | string        |              | read-only  | Last login date (ISO 8601)
   `registerIP`     | string        | **Required** | write once | User browser's IP address at the moment of account creation.
+  `authToken`      | string        |              | searchonly | User's login authToken
 
 
 User status

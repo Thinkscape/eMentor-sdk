@@ -29,6 +29,13 @@ class Client
      */
     protected $apiEndpoint = 'https://www.ementor.pl/api/v2';
 
+	/**
+	 * Url used for logging in.
+	 *
+	 * @var string
+	 */
+	protected $loginUrl    = 'https://www.ementor.pl/logowanie/';
+
     /**
      * @var int
      */
@@ -626,6 +633,30 @@ class Client
 
         return $result;
     }
+
+	/**
+	 * Construct url used for login.
+	 *
+	 * @param string $brandName
+	 * @param string $returnUrl
+	 * @return string
+	 */
+	public function getLoginUrl($brandName = '', $returnUrl = ''){
+		return $this->loginUrl . $brandName . '?returnUrl=' . rawurlencode($returnUrl);
+	}
+
+	/**
+	 * @param string				$authToken
+	 * @return \EMT\Model\User|null
+	 */
+	public function getUserFromAuthToken($authToken){
+		$users = $this->findBy('user','authToken',$authToken,null,'ASC',1,null);
+		if(!count($users)){
+			return null;
+		}else{
+			return $users[0];
+		}
+	}
 
     /**
      * Send the request and return response body.
