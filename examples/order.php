@@ -108,21 +108,26 @@ if(!$items || !is_array($items)){
 /**
  * Attempt to change order status to PENDING
  */
-echo "Changing order status to PENDING";
+echo "Changing order status to PENDING\n";
 $order->status = Order::STATUS_PENDING;
 $order->save();
 
 $order2 = $client->get('order',$order->id);
-if($order2->status !== Order::STATUS_PENDING){
+if($order2->status != Order::STATUS_PENDING){
     die("The status change has not been saved on the server!\n");
 }
 
 /**
  * Delete the order from server
  */
-echo "Changing order status to DELETED";
+echo "Changing order status to DELETED\n";
 $order->status = Order::STATUS_DELETED;
 $order->save();
+
+$order3 = $client->get('order',$order->id);
+if($order3->status != Order::STATUS_DELETED){
+	die("The status change has not been saved on the server!\n");
+}
 
 
 echo "\nFinished\n";
